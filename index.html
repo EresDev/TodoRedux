@@ -10,8 +10,12 @@
     <script src="redux.min.js"></script>
     <script>
         const reducer = Redux.combineReducers({
-            todos: () => {
-                return ['groceries', 'make dinner'];
+            todos: (state = [], action) => {
+                const newState = Object.assign([], state);
+                if (action.type == 'add') {
+                    newState.push(action.item);
+                }
+                return newState;
             }
         });
 
@@ -30,7 +34,13 @@
             });
         }
 
-        render();
+        document.getElementById('submit-todo').onclick = () => {
+            store.dispatch({
+               type: 'add',
+               item: document.getElementById('todo').value
+            });
+            render();
+        }
     </script>
     </body>
 </html>
